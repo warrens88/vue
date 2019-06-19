@@ -1,4 +1,7 @@
 # Vue 스터디
+
+<img src="http://lasertank3.cafe24.com/vuevue.png">
+
 ## Quick Start Vue.js
 
 ### git
