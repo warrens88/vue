@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>06-06</title>
+    <script src="https://unpkg.com/vue@2.5.16/dist/vue.js"></script>
+</head>
+<template id="helloTemplate">
+    <option>hello</option>
+</template>
+<!-- 컴포넌트 작성 -->
+<script type="text/javascript">
+    Vue.component('option-component', {
+        template: '#helloTemplate'
+    })
+</script>
+<!-- -->
+
+<body>
+    <div id="app">
+        <select>
+            <!-- 컴포넌트 사용 -->
+            <option-component></option-component>
+            <option-component></option-component>
+        </select>
+    </div>
+</body>
+<!-- -->
+<script type="text/javascript">
+    var v = new Vue({
+        el: '#app'
+    })
+</script>
+<!-- -->
+
+</html>
