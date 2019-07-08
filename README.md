@@ -9,9 +9,9 @@ git clone https://github.com/Soon-cheol/vue.git
 
 ### 진행
 - 인원 : 최순철, 유석규, 유혜진, 김소라, 전동엽, 한슬기, 성우경, 이다솜
-- 시간 : 오후 7시 ~ 10시
-- 일자 : 매주 목요일
-- 장소 : <a href="https://spacecloud.kr/space/3476" target="_blank">강남 윙스터디</a>
+- 시간 : 오후 7시 30분 ~ 10시 30분
+- 일자 : 매주 수요일
+- 장소 : <a href="https://www.spacecloud.kr/space/16034" target="_blank">강남 공존라운지</a>
 
 ### 정리
 --------------------------------------
