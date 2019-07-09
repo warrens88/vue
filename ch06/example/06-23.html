@@ -1,19 +1,33 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="utf-8">
-<title>06-23</title>
-<script src="https://unpkg.com/vue@2.5.16/dist/vue.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js"></script>
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/2.0.4/fetch.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/es6-promise/4.1.1/es6-promise.auto.min.js"></script>
+    <meta charset="utf-8">
+    <title>06-23</title>
+    <script src="https://unpkg.com/vue@2.5.16/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js"></script>
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/2.0.4/fetch.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-promise/4.1.1/es6-promise.auto.min.js"></script>
 </head>
 <!-- contactlist-component 시작 -->
 <style>
-#list  { width: 600px; border:1px solid black; border-collapse:collapse; }
-#list td, #list th { border:1px solid black;  text-align:center; }
-#list > thead > tr { color:yellow; background-color: purple; }
+    #list {
+        width: 600px;
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+    
+    #list td,
+    #list th {
+        border: 1px solid black;
+        text-align: center;
+    }
+    
+    #list>thead>tr {
+        color: yellow;
+        background-color: purple;
+    }
 </style>
 <template id="listTemplate">
     <div>
@@ -35,10 +49,10 @@
     </div>
 </template>
 <script type="text/javascript">
-Vue.component('contactlist-component', {
-    template : '#listTemplate',
-    props : [ 'contacts' ]    
-})
+    Vue.component('contactlist-component', {
+        template: '#listTemplate',
+        props: ['contacts']
+    })
 </script>
 <!-- contactlist-component 끝 -->
 <!-- search-component 시작 -->
@@ -49,26 +63,28 @@ Vue.component('contactlist-component', {
     </p>
 </template>
 <script type="text/javascript">
-Vue.component('search-component', {
-    template : '#searchTemplate',
-    props : [ 'placeholder' ],
-    data : function() {
-        return { name: ''};
-    },
-    methods : { 
-        keyupEvent : function(e) {
-            var val = e.target.value;
-            if (val.length >= 2) {
-                this.$emit('search', val);
-            } else {
-                this.$emit('search', '');
+    Vue.component('search-component', {
+        template: '#searchTemplate',
+        props: ['placeholder'],
+        data: function() {
+            return {
+                name: ''
+            };
+        },
+        methods: {
+            keyupEvent: function(e) {
+                var val = e.target.value;
+                if (val.length >= 2) {
+                    this.$emit('search', val);
+                } else {
+                    this.$emit('search', '');
+                }
             }
         }
-    }
-})
+    })
 </script>
 <!-- search-component 끝 -->
-<!-- searchcontact-component 시작 -->
+<!-- searchcontact-component (부모) 시작 -->
 <template id="searchcontactTemplate">
     <div>
         <search-component placeholder="두글자 이상 입력후 엔터!" v-on:search="searchEvent"></search-component>
@@ -77,51 +93,59 @@ Vue.component('search-component', {
     </div>
 </template>
 <script type="text/javascript">
-Vue.component('search-contact-component', {
-    template : '#searchcontactTemplate',
-    data : function() {
-        return {
-            contactlist : [],
-            isProcessing : false
-        }
-    },
-    methods : {
-        searchEvent : function(name) {
-            if (name == '') 
-                this.contactlist = [];
-            else
-                this.fetchContacts(name);
+    Vue.component('search-contact-component', {
+        template: '#searchcontactTemplate',
+        data: function() {
+            return {
+                contactlist: [],
+                isProcessing: false
+            }
         },
-        fetchContacts : _.debounce(function(name) {
-            this.contactlist = [];
-            this.isProcessing = true;
-            var url = "http://sample.bmaster.kro.kr/contacts_long/search/" + name;
-            var vm = this;
-            fetch(url)
-                .then(function(response) {
-                    return response.json()
-                }).then(function(json) {
-                    vm.contactlist = json;
-                    vm.isProcessing = false;
-                }).catch(function(ex) {
-                    console.log('parsing failed', ex);
-                    vm.contactlist = [];
-                    vm.isProcessing = false;
-                })
+        methods: {
+            searchEvent: function(name) {
+                if (name == '') // 인풋 값이 없으면 배열 초기화 --> 아무일도 일어나지 않음
+                    this.contactlist = [];
+                else
+                    this.fetchContacts(name); // fetchContacts 메서드 실행하면서 인풋 값 전달
+            },
+            /*
+            debounce() 메소드는 이벤트에 의해 특정 함수가 여러번 반복 실행될 수 경우에 사용하며 정해진 지연시간동안 반복된 호출을 딱 1번만 호출하도록 제어해줍니다
+            _.debounce(콜백함수, 시간)
+            */
+            fetchContacts: _.debounce(function(name) {
+                this.contactlist = [];
+                this.isProcessing = true; // isProcessing 데이터 속성 true ---> 조회중 
+                var url = "http://sample.bmaster.kro.kr/contacts_long/search/" + name;
+                var vm = this;
+                // https://justmakeyourself.tistory.com/entry/fetch-api
+                // console.log(fetch("https://randomuser.me/api/?results=10"));
+                fetch(url)
+                    .then(function(response) {
+                        return response.json() // then을 통해 가져온 값을 리턴해서 사용
+                    }).then(function(json) {
+                        vm.contactlist = json; // 데이터 배열로 추가
+                        vm.isProcessing = false; // isProcessing 데이터 속성 true ---> 완료 
+                    }).catch(function(ex) {
+                        console.log('parsing failed', ex); // 실패시 오류메세지 콘솔에 출력
+                        vm.contactlist = []; // 배열 초기화
+                        vm.isProcessing = false; // isProcessing 데이터 속성 true ---> 완료 
+                    })
 
-        }, 300)
-    }    
-})
+            }, 300)
+        }
+    })
 </script>
-<!-- searchcontact-component 끝 -->
+<!-- searchcontact-component (부모) 끝 -->
+
 <body>
     <div id="app">
         <search-contact-component></search-contact-component>
     </div>
 </body>
 <script type="text/javascript">
-var vm = new Vue({
-    el : "#app"
-})
+    var vm = new Vue({
+        el: "#app"
+    })
 </script>
+
 </html>
