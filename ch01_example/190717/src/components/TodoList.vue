@@ -1,13 +1,3 @@
-<style>
-    * {  box-sizing: border-box;  }
-    .header {
-        background-color: purple; padding: 30px 30px;
-        color: yellow; text-align: center;
-    }
-    .header:after {
-        content: ""; display: table; clear: both;
-    }
-</style>
 <template>
     <div id="todolistapp">
         <div id="header" class="header">
@@ -23,6 +13,9 @@ import List from './List.vue';
 
 export default {
     name : 'todo-list',
-    components : { InputTodo, List }
+    components : { 
+        InputTodo, 
+        List 
+    }
 }
 </script>

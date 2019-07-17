@@ -1,16 +1,12 @@
 <template>
-    <div id="wrap">
-      123123sadf
-    </div>
+  <TodoList />
 </template>
 <script>
-// import Gnb from '@/components/layout/Gnb'
-// import Lnb from '@/components/layout/Lnb'
-// import { setGlbConfig } from '@/components/module/common.js'
-
+import TodoList from './components/TodoList.vue';
 export default {
   name: 'App',
   components: {
+    TodoList
   },
   methods: {
   },
@@ -26,7 +22,6 @@ export default {
 </script>
 
 <style>
-/* @import url('../static/css/reset.css');
-@import url('../static/css/layout.css');
-@import url('../static/css/element-ui.css'); */
+@import url('../css/reset.css');
+@import url('../css/layout.css');
 </style>
